@@ -1,0 +1,18 @@
+name: Lint Commit Message
+concurrency:
+  group: ci-${{ github.ref }}-commitlint
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    types: [edited, synchronize, opened, reopened]
+    branches:
+      - main
+
+jobs:
+  lint-commit-message:
+    name: Run commitlint
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: ahmadnassri/action-commit-lint@v1

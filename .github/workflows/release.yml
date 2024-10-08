@@ -1,0 +1,41 @@
+name: Release to Production
+concurrency: release-to-prod-pipeline
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    name: Create Release
+    outputs:
+      released: ${{ env.RELEASED }}
+      newVersion: ${{ env.NEW_VERSION }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout code
+        id: checkout
+        with:
+          submodules: true
+
+      - name: Create GitHub release
+        id: semanticrelease
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          npm ci
+          echo "RELEASED=0" >> $GITHUB_ENV
+          npm run release
+
+      # Instead of a separate job, you can have steps to
+      # deploy in the same job.
+      # However, each would need to be made conditional on
+      # env.RELEASED variable (set during npm run release)
+      # being 1. For example:
+      #
+      # - name: Deploy Step 1
+      #   id: deploystep1
+      #   if: ${{ env.RELEASED == 1 }}
