@@ -22,6 +22,7 @@ jobs:
         run: |
           npm ci
           npm audit signatures
+
   deploy-to-vercel-preview-env:
     runs-on: ubuntu-24.04
     environment:
