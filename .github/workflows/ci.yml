@@ -14,7 +14,15 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
-  deploy-to-vercel-pr-preview-env:
+  audit-signatures:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Audit Provenance Attestations and Signatures
+        run: |
+          npm ci
+          npm audit signatures
+  deploy-to-vercel-preview-env:
     runs-on: ubuntu-24.04
     steps:
       - name: Show in-progress message in sticky comment
