@@ -28,6 +28,7 @@ jobs:
         run: |
           npm ci
           echo "RELEASED=0" >> $GITHUB_ENV
+          npm audit signatures
           npm run release
 
       # Instead of a separate job, you can have steps to
