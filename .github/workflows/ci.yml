@@ -24,14 +24,10 @@ jobs:
           npm audit signatures
   deploy-to-vercel-preview-env:
     runs-on: ubuntu-24.04
+    environment:
+      name: Preview
+      url: ${{ steps.deploy-artifacts.outputs.previewUrl }}
     steps:
-      - name: Show in-progress message in sticky comment
-        id: show-in-progress-message
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          message: |
-            # Vercel Preview Environment
-            Deployment in progress...
       - uses: actions/checkout@v2
       - name: Update Version Number in package.json
         run: npm --no-git-tag-version version 0.0.0-pr${{ github.event.number }}
@@ -46,18 +42,3 @@ jobs:
         run: |
           previewUrl=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
           echo "previewUrl=$previewUrl" >> "$GITHUB_OUTPUT"
-      - name: Show URL of PR-specific deployment in Sticky Comment
-        id: show-url-in-pr
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          message: |
-            # Vercel Preview Environment
-            Released ${{ github.sha }} to <${{ steps.deploy-artifacts.outputs.previewUrl }}>
-      - name: Show deployment failure in sticky comment
-        id: show-deplolyment-failure-in-pr
-        if: failure() || cancelled()
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          message: |
-            # Vercel Preview Environment
-            Deployment failed.
