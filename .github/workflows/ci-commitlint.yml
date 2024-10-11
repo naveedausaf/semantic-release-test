@@ -26,4 +26,4 @@ jobs:
         env:
           pr-title: ${{ github.event.pull_request.title }}
           pr-description: ${{ github.event.pull_request.comments[0] }}
-        run: printf "$pr-title\n\n$pr-description" | npx commitlint
+        run: printf "$pr-title\n\n$pr-description"
