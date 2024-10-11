@@ -24,6 +24,6 @@ jobs:
         run: npm ci
       - name: Validate PR commits with commitlint
         env:
-          pr-title: ${{ github.event.pull_request.title }}
-          pr-description: ${{ github.event.pull_request.comments[0] }}
-        run: printf "hello$pr-title" #$pr-title\n\n$pr-description"
+          prtitle: ${{ github.event.pull_request.title }}
+          prdescription: ${{ github.event.pull_request.comments[0] }}
+        run: printf "hello$prtitle" #$pr-title\n\n$pr-description"
