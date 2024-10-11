@@ -19,6 +19,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install dependencies
+        # If we don't do this, commitlint throws errors about
+        # not finding rules pacakge for commit message conventions
         run: npm ci
       - name: Validate PR commits with commitlint
-        run: npx commitlint --from 1315315 --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: npx commitlint --from 1315315~1 --to ${{ github.event.pull_request.head.sha }} --verbose
