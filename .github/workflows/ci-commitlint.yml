@@ -26,4 +26,4 @@ jobs:
         env:
           pr-title: ${{ github.event.pull_request.title }}
           pr-description: ${{ github.event.pull_request.comments[0] }}
-        run: printf "hello" #$pr-title\n\n$pr-description"
+        run: printf "hello$pr-title" #$pr-title\n\n$pr-description"
