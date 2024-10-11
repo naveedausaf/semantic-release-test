@@ -25,5 +25,5 @@ jobs:
       - name: Validate PR commits with commitlint
         env:
           prtitle: ${{ github.event.pull_request.title }}
-          prdescription: ${{ github.event.pull_request.comments[0] }}
+          prdescription: ${{ github.event.pull_request.body }}
         run: printf "$prtitle\n\n$prdescription" | npx commitlint
