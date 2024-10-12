@@ -20,8 +20,8 @@ jobs:
         id: checkout
         with:
           submodules: true
-      - name: Print github context to console
-        run: echo ${{ toJson(github)}}
+      - name: Run commitlint on all pushed commits
+        run: npx commitlint --from ${{ github.event.before }} --to ${{ github.event.after }} --verbose
       - name: Create GitHub release
         id: semanticrelease
         env:
