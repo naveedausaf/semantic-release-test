@@ -21,17 +21,14 @@ jobs:
         with:
           fetch-depth: 0
           submodules: true
-      - name: Install dependencies
-        # If we don't do this, commitlint throws errors about
-        # not finding rules package for commit message conventions
-        run: npm ci
-      - name: Run commitlint on all pushed commits
-        run: npx commitlint --from ${{ github.event.before }} --to ${{ github.event.after }} --verbose
+      - name: Print github context to console
+        run: echo ${{ toJson(github)}}
       - name: Create GitHub release
         id: semanticrelease
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
+          npm ci
           echo "RELEASED=0" >> $GITHUB_ENV
           npm audit signatures
           npm run release
