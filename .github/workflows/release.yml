@@ -20,7 +20,8 @@ jobs:
         id: checkout
         with:
           submodules: true
-
+      - name: Print github context to console
+        run: echo ${{ toJson(github)}}
       - name: Create GitHub release
         id: semanticrelease
         env:
