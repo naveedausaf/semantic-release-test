@@ -20,6 +20,7 @@ jobs:
         id: checkout
         with:
           submodules: true
+          fetch-depth: 0
       - name: Install dependencies
         # If we don't do this, commitlint throws errors about
         # not finding rules package for commit message conventions
