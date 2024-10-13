@@ -21,12 +21,29 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
+          # without fetch-deptch:0
+          # commitlint doesn't work on
+          # a range of commits and throw error
+          # even semantic-reelase GItHub Actions
+          # CI workflow example:
+          # https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions
+          #
+          # ..uses fetch-depth: 0 and it's hard to
+          # see how semantic-release could operate
+          # without this.
       - name: Install dependencies
         # If we don't do this, commitlint throws errors about
         # not finding rules package for commit message conventions
         run: npm ci
-      - name: Run commitlint on all pushed commits
-        run: npx commitlint --from ${{ github.event.before }} --to ${{ github.event.after }} --verbose
+      - name: Run commitlint on head commit's message
+        # Using env below rather than accessing them
+        # directly due to GitHub Docs recommendation
+        # that this is better for security as it
+        # mitigates script injection attacks :
+        # https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+        env:
+          headcommitmsg: ${{ github.event.head_commit.message }}
+        run: echo "$headcommitmsg" | npx commitlint
       - name: Create GitHub release
         id: semanticrelease
         env:
