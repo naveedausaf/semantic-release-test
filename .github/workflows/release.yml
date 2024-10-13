@@ -36,6 +36,7 @@ jobs:
         # not finding rules package for commit message conventions
         run: npm ci
       - name: Run commitlint on head commit's message
+
         # Using env below rather than accessing them
         # directly due to GitHub Docs recommendation
         # that this is better for security as it
