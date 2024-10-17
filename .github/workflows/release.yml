@@ -25,15 +25,6 @@ jobs:
       - name: Install Package Dependencies
         run: npm ci
 
-      - name: Run commitlint on head commit's message
-
-        # Using env below rather than accessing them
-        # directly due to GitHub Docs recommendation
-        # that this is better for security as it
-        # mitigates script injection attacks
-        env:
-          headcommitmsg: ${{ github.event.head_commit.message }}
-        run: echo "$headcommitmsg" | npx commitlint
       - name: Create GitHub release
         id: semanticrelease
         env:

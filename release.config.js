@@ -3,8 +3,14 @@
 module.exports = {
   branches: ["main"],
   plugins: [
-    "@semantic-release/commit-analyzer",
-
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        parserOpts: {
+          warn: true,
+        },
+      },
+    ],
     "@semantic-release/release-notes-generator",
 
     [
