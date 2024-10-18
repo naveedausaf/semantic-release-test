@@ -24,7 +24,10 @@ jobs:
           fetch-depth: 0
       - name: Install Package Dependencies
         run: npm ci
-
+      - name: Validate PR source branch commits with commitlint
+        env:
+          from: ${{ toJson(github) }}
+        run: echo "$from"
       - name: Create GitHub release
         id: semanticrelease
         env:
