@@ -27,12 +27,12 @@ jobs:
       - name: Validate PR source branch commits with commitlint
         run: |
           lasttag=$(git describe --tags --abbrev=0)
-          if [ "$lasttag" == ""]; then
-            lasttagsha="main"
+          if [ "$lasttag" == "" ]; then
+            lasttagsha="HEAD"
           else
-            lasttagsha=$(git show $lasttag --pretty=%H)  
+            lasttagsha=$(git rev-parse $lasttag)  
           fi
-          run: npx commitlint --from $lasttagsha --to main --verbose
+          npx commitlint --from $lasttagsha --to HEAD --verbose
       - name: Create GitHub release
         id: semanticrelease
         env:
