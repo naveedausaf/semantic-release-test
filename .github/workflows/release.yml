@@ -28,11 +28,11 @@ jobs:
         run: |
           lasttag=$(git describe --tags --abbrev=0)
           if [ "$lasttag" == "" ]; then
-            lasttagsha="main"
+            lasttagsha="HEAD"
           else
-            lasttagsha=$(git rev-parse v1.0.5)  
+            lasttagsha=$(git rev-parse $lasttag)  
           fi
-          npx commitlint --from $lasttagsha --to main --verbose
+          npx commitlint --from $lasttagsha --to HEAD --verbose
       - name: Create GitHub release
         id: semanticrelease
         env:
