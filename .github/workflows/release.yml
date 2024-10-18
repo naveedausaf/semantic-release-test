@@ -25,9 +25,14 @@ jobs:
       - name: Install Package Dependencies
         run: npm ci
       - name: Validate PR source branch commits with commitlint
-        env:
-          from: ${{ toJson(github) }}
-        run: echo "$from"
+        run: |
+          lasttag=$(git describe --tags --abbrev=0)
+          if [ "$lasttag" == ""]; then
+            lasttagsha="main"
+          else
+            lasttagsha=$(git show lasttag --pretty=%H)  
+          fi
+          run: npx commitlint --from $lasttagsha --to main --verbose
       - name: Create GitHub release
         id: semanticrelease
         env:
